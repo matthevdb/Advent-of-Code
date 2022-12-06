@@ -1,39 +1,47 @@
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.rmi.StubNotFoundException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
 public class PartOne {
     public static void main(String[] args) throws IOException {
+        int codeLength = 14;
+        int index = 0;
         Scanner scanner = new Scanner(Paths.get("input.txt"));
 
         char[] chars = scanner.next().toCharArray();
-        int index = 0;
 
         for (int i = 0; i < chars.length; i++) {
-            int lowerBound = i - 4;
+            int lowerBound = i - codeLength + 1;
             if (lowerBound < 0) lowerBound = 0;
 
-            ArrayList<Character> selection = new ArrayList<>();
+            ArrayList<Character> prevChars = new ArrayList<>();
 
-            for (int j = lowerBound; j < i; j++) {
-                selection.add(chars[j]);
+            for (int j = lowerBound; j <= i; j++) {
+                prevChars.add(chars[j]);
             }
 
-            System.out.println(selection);
+            System.out.println(prevChars + " Cur: " + chars[i]);
 
-            for (Character character : selection) {
-                ArrayList<Character> selectionWithout = new ArrayList<>(selection);
-                selectionWithout.remove(character);
-
-                if (!selectionWithout.contains(character)) {
-                    index = i;
-                    break;
-                }
+            if (i >= codeLength && areAllUnique(prevChars)) {
+                index = i + 1;
+                break;
             }
         }
 
-        System.out.println(index);
+        System.out.println("At index " + index + " the past " + codeLength + " characters are unique.");
+    }
+
+    public static boolean areAllUnique(List<Character> chars) {
+        Set<Character> set = new HashSet<>();
+
+        for (Character character : chars) {
+            set.add(character);
+        }
+
+        return set.size() == chars.size();
     }
 }
