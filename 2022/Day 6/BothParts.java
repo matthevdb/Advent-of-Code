@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 
-public class PartOne {
+public class BothParts {
     public static void main(String[] args) throws IOException {
         int codeLength = 14;
         int index = 0;
